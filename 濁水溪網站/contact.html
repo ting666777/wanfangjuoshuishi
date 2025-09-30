@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>送錢 | 溪邊</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2e2e33;
+      --muted: #8e9194;
+      --accent: #aa784d;
+      --dark: #0a0a0a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-family: "Quicksand", "Noto Sans TC", "PingFang TC", sans-serif;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.93);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(180, 180, 190, 0.18);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .logo img {
+      height: 54px;
+      width: auto;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 26px;
+      margin: 0;
+      padding: 0;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 6px;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      width: 40px;
+      height: 32px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .hamburger span,
+    .hamburger span::before,
+    .hamburger span::after {
+      display: block;
+      position: absolute;
+      width: 28px;
+      height: 3px;
+      background: #1f1f28;
+      transition: 0.35s ease;
+    }
+
+    .hamburger span { top: 50%; transform: translateY(-50%); }
+    .hamburger span::before { content: ""; top: -8px; }
+    .hamburger span::after { content: ""; top: 8px; }
+
+    .hero {
+      background: var(--dark);
+      color: #fefefe;
+      padding: 160px 28px 130px;
+    }
+
+    .hero .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", "Noto Serif TC", serif;
+      font-size: clamp(2.8rem, 6vw, 4.6rem);
+      letter-spacing: 0.12em;
+      margin: 0;
+    }
+
+    .hero p {
+      margin-top: 24px;
+      color: #d9d9d9;
+      max-width: 540px;
+      font-weight: 600;
+    }
+
+    main {
+      flex: 1;
+      padding: 120px 28px 80px;
+    }
+
+    main .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 48px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: start;
+    }
+
+    .contact-box {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-box h2 {
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      margin: 0;
+    }
+
+    .contact-details {
+      font-weight: 700;
+      letter-spacing: 0.2em;
+    }
+
+    .contact-details span {
+      display: block;
+      margin-top: 6px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .contact-description {
+      color: #5d5f61;
+      font-weight: 600;
+    }
+
+    form {
+      background: #f8f8f9;
+      padding: 34px;
+      border-radius: 22px;
+      box-shadow: 0 18px 48px rgba(24, 26, 32, 0.12);
+      display: grid;
+      gap: 24px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(170, 120, 77, 0.2);
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .consent {
+      display: flex;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: #5d5f61;
+      align-items: flex-start;
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      margin-top: 4px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field.invalid input,
+    .field.invalid textarea {
+      border-color: #d14343;
+      box-shadow: 0 0 0 2px rgba(209, 67, 67, 0.18);
+    }
+
+    .field-error {
+      opacity: 0;
+      transform: translateY(-4px);
+      color: #d14343;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+      margin-top: 6px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .field-error.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 42px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(170, 120, 77, 0.32);
+    }
+
+    .form-success {
+      display: none;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(76, 220, 120, 0.12);
+      color: #1f8a4b;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .submission-board {
+      margin-top: 80px;
+      background: #f8f8f9;
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow: 0 14px 38px rgba(24, 26, 32, 0.12);
+    }
+
+    .board-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .board-header h3 {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 1rem;
+      color: #45474b;
+    }
+
+    .clear-button {
+      background: none;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: #5d5f61;
+      transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .clear-button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .clear-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: rgba(0, 0, 0, 0.08);
+      transform: none;
+    }
+
+    .submission-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 18px;
+    }
+
+    .submission-item {
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid rgba(210, 212, 220, 0.45);
+    }
+
+    .submission-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      font-size: 0.9rem;
+      color: #45474b;
+    }
+
+    .submission-meta span {
+      color: #8a8c90;
+      font-weight: 500;
+    }
+
+    .submission-meta span + span::before {
+      content: "｜";
+      margin: 0 6px 0 4px;
+      color: #c2c4c9;
+      font-weight: 400;
+    }
+
+    .submission-message {
+      margin-top: 12px;
+      color: #5d5f61;
+      white-space: pre-wrap;
+    }
+
+    .empty-state {
+      margin: 0;
+      color: #8a8c90;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    footer {
+      text-align: center;
+      padding: 60px 20px 40px;
+      font-size: 0.85rem;
+      color: #8a8c90;
+      background: #f0f1f2;
+    }
+
+    @media (max-width: 820px) {
+      nav ul {
+        display: none;
+      }
+
+      nav {
+        position: relative;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      body.nav-open nav ul {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 58px;
+        right: 0;
+        background: rgba(255, 255, 255, 0.96);
+        padding: 18px 24px;
+        gap: 16px;
+        border-radius: 18px;
+        box-shadow: 0 18px 40px rgba(20, 20, 30, 0.18);
+      }
+
+      body.nav-open nav a {
+        padding-bottom: 2px;
+      }
+
+      .hero {
+        padding-top: 140px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      main {
+        padding: 90px 20px 60px;
+      }
+
+      form {
+        padding: 26px;
+      }
+
+      .submission-board {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="top-bar">
+      <div class="nav-container">
+        <div class="logo">
+          <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/published/img-7886.jpg?1653388689" alt="溪邊 Logo">
+          <span>溪邊</span>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="test.html">溪邊</a></li>
+            <li><a href="works.html">作品</a></li>
+            <li><a class="active" href="contact.html">送錢</a></li>
+          </ul>
+        </nav>
+        <button class="hamburger" type="button" aria-label="Menu"><span></span></button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <h1>送錢ㄟ</h1>
+        <p>只要你想到任意合作、贊助、腦洞或是單純想聊天，都歡迎來找我。留下基本資訊，我會儘快回覆你。</p>
+      </div>
+    </section>
+
+    <main>
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-box">
+            <h2>聯絡資訊</h2>
+            <div class="contact-details">
+              EMAIL /
+              <span><a href="mailto:iamtingshen666@gmail.com">iamtingshen666@gmail.com</a></span>
+            </div>
+            <div class="contact-details">
+              PHONE /
+              <span><a href="tel:+886969526926">0969-526-926</a></span>
+            </div>
+            <p class="contact-description">
+              泰戈爾講過一段耐人尋思的話，宗教就會像財富、榮譽或家族那樣，僅僅成為一種人們引以自豪的東西。這段話令我陷入了沈思。老舊的想法已經過時了。萬芳濁水溪似乎是一種巧合，但如果我們從一個更大的角度看待問題，這似乎是一種不可避免的事實。
+            </p>
+          </div>
+
+          <form id="donation-form" autocomplete="on" novalidate>
+            <div class="form-row">
+              <div class="field" data-field="firstName">
+                <label for="firstName">名字 *</label>
+                <input id="firstName" name="firstName" type="text" placeholder="First" aria-describedby="error-firstName">
+                <small class="field-error" id="error-firstName"></small>
+              </div>
+              <div class="field" data-field="lastName">
+                <label for="lastName">姓氏 *</label>
+                <input id="lastName" name="lastName" type="text" placeholder="Last" aria-describedby="error-lastName">
+                <small class="field-error" id="error-lastName"></small>
+              </div>
+            </div>
+            <div class="field" data-field="email">
+              <label for="email">Email *</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" aria-describedby="error-email">
+              <small class="field-error" id="error-email"></small>
+            </div>
+            <div class="field" data-field="message">
+              <label for="message">送錢 *</label>
+              <textarea id="message" name="message" placeholder="想說些什麼？例如：我要贊助、合作提案、分享靈感..." aria-describedby="error-message"></textarea>
+              <small class="field-error" id="error-message"></small>
+            </div>
+            <label class="consent">
+              <input id="consent" name="consent" type="checkbox">
+              <span>我同意接收日後的最新作品、活動與各種不定期的宇宙補給。（可選）</span>
+            </label>
+            <button class="button" type="submit">送出</button>
+            <div class="form-success" role="status" tabindex="-1">收到啦！我會盡快跟你聯絡，謝謝。</div>
+          </form>
+        </div>
+
+        <section class="submission-board" aria-live="polite">
+          <div class="board-header">
+            <h3>最近留言</h3>
+            <button type="button" class="clear-button" id="clearSubmissions">清除記錄</button>
+          </div>
+          <p class="empty-state" id="emptyState">目前還沒有訊息，來當第一個送錢的人吧！</p>
+          <ul class="submission-list" id="submissionList"></ul>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      © 2024 溪邊．保留台味幽默與真誠聯絡方式。
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const button = document.querySelector('.hamburger');
+      const navLinks = document.querySelectorAll('nav a');
+      const form = document.querySelector('#donation-form');
+      const success = document.querySelector('.form-success');
+      const list = document.querySelector('#submissionList');
+      const emptyState = document.querySelector('#emptyState');
+      const clearButton = document.querySelector('#clearSubmissions');
+
+      const storageKey = 'contactSubmissions';
+
+      function storageAvailable() {
+        try {
+          const testKey = '__storage_test__';
+          window.localStorage.setItem(testKey, '1');
+          window.localStorage.removeItem(testKey);
+          return true;
+        } catch (err) {
+          return false;
+        }
+      }
+
+      const canStore = storageAvailable();
+
+      function getStoredSubmissions() {
+        if (!canStore) return [];
+        try {
+          const raw = window.localStorage.getItem(storageKey);
+          return raw ? JSON.parse(raw) : [];
+        } catch (err) {
+          console.warn('讀取本地記錄失敗', err);
+          return [];
+        }
+      }
+
+      function setStoredSubmissions(items) {
+        if (!canStore) return;
+        try {
+          window.localStorage.setItem(storageKey, JSON.stringify(items));
+        } catch (err) {
+          console.warn('寫入本地記錄失敗', err);
+        }
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) return '剛剛';
+        return `${date.getFullYear()}-${`${date.getMonth() + 1}`.padStart(2, '0')}-${`${date.getDate()}`.padStart(2, '0')} ${`${date.getHours()}`.padStart(2, '0')}:${`${date.getMinutes()}`.padStart(2, '0')}`;
+      }
+
+      function renderSubmissions(items) {
+        if (!list || !emptyState) return;
+        list.innerHTML = '';
+        if (!items.length) {
+          emptyState.style.display = 'block';
+          return;
+        }
+        emptyState.style.display = 'none';
+        const fragment = document.createDocumentFragment();
+        items.forEach((item) => {
+          const li = document.createElement('li');
+          li.className = 'submission-item';
+
+          const meta = document.createElement('div');
+          meta.className = 'submission-meta';
+
+          const nameSpan = document.createElement('span');
+          nameSpan.textContent = item.fullName || '匿名';
+          meta.appendChild(nameSpan);
+
+          const emailSpan = document.createElement('span');
+          emailSpan.textContent = item.email || '無 email';
+          meta.appendChild(emailSpan);
+
+          const dateSpan = document.createElement('span');
+          dateSpan.textContent = formatDate(item.date);
+          meta.appendChild(dateSpan);
+
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'submission-message';
+          messageDiv.textContent = item.message;
+
+          li.appendChild(meta);
+          li.appendChild(messageDiv);
+          fragment.appendChild(li);
+        });
+        list.appendChild(fragment);
+      }
+
+      const submissions = getStoredSubmissions();
+      renderSubmissions(submissions);
+
+      if (!canStore && clearButton) {
+        clearButton.disabled = true;
+        clearButton.title = '瀏覽器關閉了本地儲存，無法保留紀錄';
+      }
+
+      if (button) {
+        button.addEventListener('click', function () {
+          document.body.classList.toggle('nav-open');
+        });
+      }
+
+      navLinks.forEach(function (anchor) {
+        anchor.addEventListener('click', function () {
+          document.body.classList.remove('nav-open');
+        });
+      });
+
+      function showError(fieldName, message) {
+        const fieldWrapper = form.querySelector(`[data-field="${fieldName}"]`);
+        if (!fieldWrapper) return;
+        const errorEl = fieldWrapper.querySelector('.field-error');
+        if (errorEl) {
+          errorEl.textContent = message;
+          errorEl.classList.add('active');
+        }
+        fieldWrapper.classList.add('invalid');
+      }
+
+      function clearError(fieldName) {
+        const fieldWrapper = form.querySelector(`[data-field="${fieldName}"]`);
+        if (!fieldWrapper) return;
+        const errorEl = fieldWrapper.querySelector('.field-error');
+        if (errorEl) {
+          errorEl.textContent = '';
+          errorEl.classList.remove('active');
+        }
+        fieldWrapper.classList.remove('invalid');
+      }
+
+      function validate(formData) {
+        let valid = true;
+
+        const firstName = formData.get('firstName').trim();
+        if (!firstName) {
+          showError('firstName', '請填寫名字');
+          valid = false;
+        } else {
+          clearError('firstName');
+        }
+
+        const lastName = formData.get('lastName').trim();
+        if (!lastName) {
+          showError('lastName', '請填寫姓氏');
+          valid = false;
+        } else {
+          clearError('lastName');
+        }
+
+        const email = formData.get('email').trim();
+        if (!email) {
+          showError('email', 'Email 不可空白');
+          valid = false;
+        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+          showError('email', 'Email 格式不正確');
+          valid = false;
+        } else {
+          clearError('email');
+        }
+
+        const message = formData.get('message').trim();
+        if (!message) {
+          showError('message', '請告訴我你想說些什麼');
+          valid = false;
+        } else {
+          clearError('message');
+        }
+
+        return valid;
+      }
+
+      if (form && success) {
+        const inputs = form.querySelectorAll('input, textarea');
+        inputs.forEach(function (inputEl) {
+          const fieldName = inputEl.getAttribute('name');
+          if (!fieldName) return;
+          inputEl.addEventListener('input', function () {
+            clearError(fieldName);
+          });
+        });
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const formData = new FormData(form);
+          if (!validate(formData)) {
+            success.style.display = 'none';
+            return;
+          }
+
+          const entry = {
+            fullName: `${formData.get('firstName').trim()} ${formData.get('lastName').trim()}`.trim(),
+            email: formData.get('email').trim(),
+            message: formData.get('message').trim(),
+            date: new Date().toISOString(),
+          };
+
+          submissions.unshift(entry);
+          setStoredSubmissions(submissions);
+          renderSubmissions(submissions);
+
+          ['firstName', 'lastName', 'email', 'message'].forEach(clearError);
+          success.style.display = 'block';
+          form.reset();
+          success.focus && success.focus();
+        });
+      }
+
+      if (clearButton) {
+        clearButton.addEventListener('click', function () {
+          submissions.length = 0;
+          setStoredSubmissions(submissions);
+          renderSubmissions(submissions);
+          if (success) {
+            success.style.display = 'none';
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
