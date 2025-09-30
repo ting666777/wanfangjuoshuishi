@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品 | 溪邊</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2e2e33;
+      --muted: #8e9194;
+      --accent: #aa784d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Quicksand", "Noto Sans TC", "PingFang TC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.93);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(180, 180, 190, 0.18);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .logo img {
+      height: 54px;
+      width: auto;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 26px;
+      margin: 0;
+      padding: 0;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 6px;
+      color: var(--text);
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      width: 40px;
+      height: 32px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .hamburger span,
+    .hamburger span::before,
+    .hamburger span::after {
+      display: block;
+      position: absolute;
+      width: 28px;
+      height: 3px;
+      background: #1f1f28;
+      transition: 0.35s ease;
+    }
+
+    .hamburger span { top: 50%; transform: translateY(-50%); }
+    .hamburger span::before { content: ""; top: -8px; }
+    .hamburger span::after { content: ""; top: 8px; }
+
+    .hero {
+      background: #020202;
+      color: #fefefe;
+      padding: 160px 28px 120px;
+    }
+
+    .hero .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", "Noto Serif TC", serif;
+      font-size: clamp(2.8rem, 6vw, 4.6rem);
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
+
+    .hero p {
+      margin: 28px 0 0;
+      max-width: 560px;
+      color: #d9d9d9;
+      font-weight: 600;
+    }
+
+    main {
+      flex: 1;
+      padding: 120px 28px 80px;
+    }
+
+    main .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .gallery {
+      display: grid;
+      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: start;
+    }
+
+    .gallery .column {
+      display: grid;
+      gap: 24px;
+    }
+
+    .gallery .column img {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 18px 45px rgba(24, 26, 32, 0.18);
+    }
+
+    .nested-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-top: 56.25%;
+      margin: 100px 0 80px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 18px 48px rgba(24, 26, 32, 0.22);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    blockquote {
+      font-family: "Playfair Display", "Noto Serif TC", serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.88);
+      margin: 0;
+      padding-left: 28px;
+      border-left: 4px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .quote-section {
+      display: grid;
+      gap: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: start;
+    }
+
+    .quote-text {
+      font-weight: 600;
+      color: #5d5f61;
+    }
+
+    .divider {
+      margin: 100px auto 80px;
+      text-align: center;
+    }
+
+    .divider img {
+      width: min(520px, 90%);
+      height: auto;
+      opacity: 0.85;
+    }
+
+    .cta {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 40px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(170, 120, 77, 0.32);
+    }
+
+    footer {
+      text-align: center;
+      padding: 60px 20px 40px;
+      font-size: 0.85rem;
+      color: #8a8c90;
+      background: #f0f1f2;
+    }
+
+    @media (max-width: 820px) {
+      nav ul {
+        display: none;
+      }
+
+      nav {
+        position: relative;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      body.nav-open nav ul {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 58px;
+        right: 0;
+        background: rgba(255, 255, 255, 0.96);
+        padding: 18px 24px;
+        gap: 16px;
+        border-radius: 18px;
+        box-shadow: 0 18px 40px rgba(20, 20, 30, 0.18);
+      }
+
+      body.nav-open nav a {
+        padding-bottom: 2px;
+      }
+
+      .hero {
+        padding-top: 140px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      main {
+        padding: 90px 20px 60px;
+      }
+
+      .video-wrapper {
+        margin: 80px 0 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="top-bar">
+      <div class="nav-container">
+        <div class="logo">
+          <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/published/img-7886.jpg?1653388689" alt="溪邊 Logo">
+          <span>溪邊</span>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="test.html">溪邊</a></li>
+            <li><a class="active" href="works.html">作品</a></li>
+            <li><a href="contact.html">送錢</a></li>
+          </ul>
+        </nav>
+        <button class="hamburger" type="button" aria-label="Menu"><span></span></button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <h1>作品</h1>
+        <p>謹慎地來說，我們必須考慮到所有可能。儘管思考看似不顯眼，卻佔據了我的腦海。想必大家都能了解思考的重要性。看看別人，再想想自己，會發現問題的核心其實就在你身旁。</p>
+      </div>
+    </section>
+
+    <main>
+      <div class="container">
+        <div class="gallery">
+          <div class="column">
+            <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/img-0940_orig.jpg" alt="作品照片 1">
+            <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/published/img-3481-3.jpg?1653384009" alt="作品照片 2">
+          </div>
+          <div class="column">
+            <div class="nested-grid">
+              <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/published/img-2820.jpg?1653384035" alt="作品照片 3">
+              <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/img-4923-2_orig.jpg" alt="作品照片 4">
+            </div>
+            <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/img-13566666_orig.jpg" alt="作品照片 5">
+          </div>
+        </div>
+
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/W4dEsFKh2sw?wmode=opaque" allowfullscreen title="作品影片"></iframe>
+        </div>
+
+        <div class="quote-section">
+          <blockquote>既然如此，我想，把成功的意義想清楚，對各位來說並不是一件壞事。</blockquote>
+          <div class="quote-text">
+            謹慎地來說，我們必須考慮到所有可能。儘管思考看似不顯眼，卻佔據了我的腦海。想必大家都能了解思考的重要性。看看別人，再想想自己，會發現問題的核心其實就在你身旁。<br><br>
+            不斷發現，問題在於該用什麼標準來做決定呢？我們都知道，只要有意義，那就必須慎重考慮。生活中，若思考出現了，我們就不得不考慮它出現的事實。思考對我來說有著足夠重要的地位，必須要認真看待。一般來說，在這種困難的抉擇下，本人思來想去，寢食難安。克拉頓曾說過，雷電是上帝的大斧。強烈建議大家把這段話牢牢記住。其實，若思緒夠清楚，那麼思考也就不那麼複雜了。可是，即使如此，思考的出現仍然代表了一定的意義。由於既然，洛克曾提出，學到很多東西的訣竅，就是一下子不要學很多。這句話彷彿解讀出了問題的根本。思考的出現，必將引領人類走向更高的巔峰。從這個角度來看，領會其中的道理也不是那麼困難。若無法徹底理解思考，恐怕會是人類的一大遺憾。儘管如此，我們仍然需要對思考保持懷疑的態度。<br><br>
+            若到今天結束時我們都仍無法釐清思考的意義，那想必我們昨天也無法釐清。總結來說，思考可以說是有著成為常識的趨勢。
+          </div>
+        </div>
+
+        <div class="divider">
+          <img src="https://wanfangjuoshuishi.weebly.com/uploads/1/4/1/9/141970650/gray-line_2_orig.png" alt="分隔線">
+        </div>
+
+        <div class="cta" id="contact">
+          <a class="button" href="https://www.youtube.com/channel/UC1ZNWAkGgUXMMfE1KyGQGZA" target="_blank" rel="noopener noreferrer">Touch me</a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      © 2024 溪邊作品集．手刻重現 Weebly 視覺，僅供個人練習使用。
+    </footer>
+  </div>
+  <script>
+    (function () {
+      const button = document.querySelector('.hamburger');
+      const links = document.querySelectorAll('nav a');
+      if (!button) return;
+      button.addEventListener('click', function () {
+        document.body.classList.toggle('nav-open');
+      });
+      links.forEach(function (anchor) {
+        anchor.addEventListener('click', function () {
+          document.body.classList.remove('nav-open');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
